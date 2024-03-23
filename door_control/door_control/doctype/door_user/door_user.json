@@ -1,0 +1,66 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-04 16:07:26.321497",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "name1",
+  "group",
+  "code",
+  "pin",
+  "door_access"
+ ],
+ "fields": [
+  {
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "label": "name"
+  },
+  {
+   "fieldname": "group",
+   "fieldtype": "Data",
+   "label": "group"
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Data",
+   "label": "code"
+  },
+  {
+   "fieldname": "pin",
+   "fieldtype": "Data",
+   "label": "pin"
+  },
+  {
+   "fieldname": "door_access",
+   "fieldtype": "Table",
+   "label": "door access",
+   "options": "doorset"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-04 19:31:21.335142",
+ "modified_by": "Administrator",
+ "module": "Door Control",
+ "name": "door_user",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

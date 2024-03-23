@@ -1,9 +1,9 @@
 [project]
 name = "door_control"
 authors = [
-    { name = "Doug Mattingly", email = "doug@bizlabs.org"}
+    { name = "bizlabs", email = "doug@bizlabs.org"}
 ]
-description = "upphote door control"
+description = "uphotte door controller"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]

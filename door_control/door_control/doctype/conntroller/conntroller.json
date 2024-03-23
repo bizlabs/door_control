@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-04 15:35:52.881452",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "serial_number",
+  "doorname_1",
+  "doorname_2",
+  "doorname_3",
+  "doorname4"
+ ],
+ "fields": [
+  {
+   "fieldname": "serial_number",
+   "fieldtype": "Data",
+   "label": "serial number"
+  },
+  {
+   "fieldname": "doorname_1",
+   "fieldtype": "Data",
+   "label": "doorname 1"
+  },
+  {
+   "fieldname": "doorname_2",
+   "fieldtype": "Data",
+   "label": "doorname 2"
+  },
+  {
+   "fieldname": "doorname_3",
+   "fieldtype": "Data",
+   "label": "doorname 3"
+  },
+  {
+   "fieldname": "doorname4",
+   "fieldtype": "Data",
+   "label": "doorname4"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-04 15:57:25.625400",
+ "modified_by": "Administrator",
+ "module": "Door Control",
+ "name": "Conntroller",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

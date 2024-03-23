@@ -1,7 +1,7 @@
 app_name = "door_control"
 app_title = "Door Control"
-app_publisher = "Doug Mattingly"
-app_description = "upphote door control"
+app_publisher = "bizlabs"
+app_description = "uphotte door controller"
 app_email = "doug@bizlabs.org"
 app_license = "mit"
 # required_apps = []

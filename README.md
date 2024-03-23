@@ -1,6 +1,6 @@
 ## Door Control
 
-upphote door control
+uphotte door controller
 
 #### License
 
