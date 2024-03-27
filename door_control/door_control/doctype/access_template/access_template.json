@@ -1,38 +1,32 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-02-04 16:13:26.591007",
+ "creation": "2024-03-25 05:52:51.217539",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "groupname",
-  "notes",
-  "template"
+  "description",
+  "access"
  ],
  "fields": [
   {
-   "fieldname": "groupname",
+   "fieldname": "description",
    "fieldtype": "Data",
-   "label": "Group Name"
+   "label": "description"
   },
   {
-   "fieldname": "notes",
-   "fieldtype": "Small Text",
-   "label": "Notes"
-  },
-  {
-   "fieldname": "template",
-   "fieldtype": "Link",
-   "label": "Door Access Template",
-   "options": "door_template"
+   "fieldname": "access",
+   "fieldtype": "Table",
+   "label": "Access",
+   "options": "access"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-26 11:30:48.283833",
+ "modified": "2024-03-25 06:35:03.439088",
  "modified_by": "Administrator",
  "module": "Door Control",
- "name": "group",
+ "name": "access_template",
  "owner": "Administrator",
  "permissions": [
   {
@@ -48,9 +42,7 @@
    "write": 1
   }
  ],
- "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "title_field": "groupname"
+ "states": []
 }

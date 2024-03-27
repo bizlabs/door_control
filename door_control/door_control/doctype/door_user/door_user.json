@@ -5,27 +5,31 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "name1",
+  "active",
+  "full_name",
   "group",
   "code",
   "pin",
-  "door_access"
+  "template",
+  "override",
+  "controller_data_tab",
+  "card_number",
+  "card_resp",
+  "all_cards"
  ],
  "fields": [
   {
-   "fieldname": "name1",
-   "fieldtype": "Data",
-   "label": "name"
-  },
-  {
    "fieldname": "group",
-   "fieldtype": "Data",
-   "label": "group"
+   "fieldtype": "Link",
+   "label": "group",
+   "options": "group",
+   "reqd": 1
   },
   {
    "fieldname": "code",
    "fieldtype": "Data",
-   "label": "code"
+   "label": "code",
+   "reqd": 1
   },
   {
    "fieldname": "pin",
@@ -33,15 +37,56 @@
    "label": "pin"
   },
   {
-   "fieldname": "door_access",
+   "description": "Changing template will not change overridden access permissions",
+   "fieldname": "template",
+   "fieldtype": "Link",
+   "label": "Door Access Template",
+   "options": "door_template"
+  },
+  {
+   "description": "Override takes precedence over template",
+   "fieldname": "override",
    "fieldtype": "Table",
-   "label": "door access",
-   "options": "doorset"
+   "label": "Access Permissions",
+   "options": "user_access"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Full name",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active?"
+  },
+  {
+   "fieldname": "controller_data_tab",
+   "fieldtype": "Tab Break",
+   "label": "controller data"
+  },
+  {
+   "fieldname": "card_number",
+   "fieldtype": "Int",
+   "label": "card number"
+  },
+  {
+   "fieldname": "card_resp",
+   "fieldtype": "Text",
+   "label": "card response"
+  },
+  {
+   "fieldname": "all_cards",
+   "fieldtype": "Text",
+   "label": "all cards"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-04 19:31:21.335142",
+ "modified": "2024-03-26 21:02:38.658951",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",

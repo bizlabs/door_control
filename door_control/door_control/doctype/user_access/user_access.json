@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-03-26 10:19:25.059004",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "override",
+  "access",
+  "doornum",
+  "door_name",
+  "controller"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "override",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Override"
+  },
+  {
+   "default": "0",
+   "fieldname": "access",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Access"
+  },
+  {
+   "fieldname": "doornum",
+   "fieldtype": "Int",
+   "label": "Door number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "door_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "is_virtual": 1,
+   "label": "Door name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "controller",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Controller",
+   "options": "controller",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-03-26 11:19:40.764097",
+ "modified_by": "Administrator",
+ "module": "Door Control",
+ "name": "user_access",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

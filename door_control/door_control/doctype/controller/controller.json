@@ -1,0 +1,124 @@
+{
+ "actions": [],
+ "autoname": "field:serial_number",
+ "creation": "2024-02-04 15:35:52.881452",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "active",
+  "serial_number",
+  "location",
+  "ip_address",
+  "doorname_1",
+  "doorname_2",
+  "doorname_3",
+  "doorname_4",
+  "notes",
+  "mac_address",
+  "gateway",
+  "subnet_mask",
+  "version"
+ ],
+ "fields": [
+  {
+   "fieldname": "serial_number",
+   "fieldtype": "Data",
+   "label": "serial number",
+   "read_only": 1,
+   "unique": 1
+  },
+  {
+   "default": "door1",
+   "fieldname": "doorname_1",
+   "fieldtype": "Data",
+   "label": "doorname 1"
+  },
+  {
+   "default": "door2",
+   "fieldname": "doorname_2",
+   "fieldtype": "Data",
+   "label": "doorname 2"
+  },
+  {
+   "default": "door3",
+   "fieldname": "doorname_3",
+   "fieldtype": "Data",
+   "label": "doorname 3"
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "ip address"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "mac_address",
+   "fieldtype": "Data",
+   "label": "mac_address"
+  },
+  {
+   "fieldname": "gateway",
+   "fieldtype": "Data",
+   "label": "gateway"
+  },
+  {
+   "fieldname": "subnet_mask",
+   "fieldtype": "Data",
+   "label": "subnet mask"
+  },
+  {
+   "fieldname": "version",
+   "fieldtype": "Data",
+   "label": "version"
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "location"
+  },
+  {
+   "default": "door4",
+   "fieldname": "doorname_4",
+   "fieldtype": "Data",
+   "label": "doorname 4"
+  },
+  {
+   "default": "1",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "active"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-03-26 18:29:58.771128",
+ "modified_by": "Administrator",
+ "module": "Door Control",
+ "name": "controller",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "location"
+}
