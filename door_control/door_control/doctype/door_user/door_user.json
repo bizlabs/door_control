@@ -9,9 +9,10 @@
   "full_name",
   "group",
   "code",
-  "pin",
   "template",
   "override",
+  "pin",
+  "foreign",
   "controller_data_tab",
   "card_number",
   "card_resp",
@@ -21,13 +22,15 @@
   {
    "fieldname": "group",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "group",
-   "options": "group",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.foreign == 0;",
+   "options": "group"
   },
   {
    "fieldname": "code",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "code",
    "reqd": 1
   },
@@ -55,7 +58,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Full name",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.foreign == 0;"
   },
   {
    "default": "1",
@@ -82,11 +85,18 @@
    "fieldname": "all_cards",
    "fieldtype": "Text",
    "label": "all cards"
+  },
+  {
+   "default": "0",
+   "description": "This was downloaded from the controller so came from another source.\n",
+   "fieldname": "foreign",
+   "fieldtype": "Check",
+   "label": "Foreign Source"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-26 21:02:38.658951",
+ "modified": "2024-04-07 16:51:27.247977",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",

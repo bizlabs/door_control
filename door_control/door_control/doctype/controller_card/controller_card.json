@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-03-27 17:28:05.078154",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "controller",
+  "cardnum",
+  "pin",
+  "start_date",
+  "end_date",
+  "d1",
+  "d2",
+  "d3",
+  "d4",
+  "ctrl_card",
+  "orphan"
+ ],
+ "fields": [
+  {
+   "fieldname": "cardnum",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Card Number"
+  },
+  {
+   "fieldname": "pin",
+   "fieldtype": "Int",
+   "label": "PIN"
+  },
+  {
+   "fieldname": "controller",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "controller",
+   "options": "controller"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End date"
+  },
+  {
+   "default": "0",
+   "fieldname": "d1",
+   "fieldtype": "Check",
+   "label": "d1"
+  },
+  {
+   "default": "0",
+   "fieldname": "d2",
+   "fieldtype": "Check",
+   "label": "d2"
+  },
+  {
+   "default": "0",
+   "fieldname": "d3",
+   "fieldtype": "Check",
+   "label": "d3"
+  },
+  {
+   "default": "0",
+   "fieldname": "d4",
+   "fieldtype": "Check",
+   "label": "d4"
+  },
+  {
+   "fieldname": "ctrl_card",
+   "fieldtype": "Data",
+   "label": "ctrl_card"
+  },
+  {
+   "default": "0",
+   "fieldname": "orphan",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "orphan"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-02 20:59:10.257104",
+ "modified_by": "Administrator",
+ "module": "Door Control",
+ "name": "controller_card",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class Testaccess_access_template(FrappeTestCase):
+class Testcontroller_card(FrappeTestCase):
 	pass

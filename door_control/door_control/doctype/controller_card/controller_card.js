@@ -1,19 +1,16 @@
-// Copyright (c) 2024, Doug Mattingly and contributors
+// Copyright (c) 2024, bizlabs and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("controller", {
+frappe.ui.form.on("controller_card", {
 	refresh(frm) {
 
-        frm.add_custom_button(__("Search controllers"), function() {
-            frm.call('get_all_controllers', { arg1: "value" })
+        frm.add_custom_button(__("Get All Cards"), function() {
+            frm.call('get_all_cards', { arg1: "value" })
             .then(r => {
                 debugger
-                frappe.msgprint("found " + r.message + " NEW controllers")
-                // frappe.set_route('List', 'controller')
-                frappe.set_route('List', 'controller', { 'location': ['is','not set'] })
+                frappe.set_route(['List', 'controller_card'])
             })
         }).css({"color":"white", "background-color": "blue", "font-weight": "800"});
-
 
         frm.add_custom_button(__("Add Card"), function() {
             debugger
@@ -39,5 +36,13 @@ frappe.ui.form.on("controller", {
             })
 
         }).css({"color":"black", "background-color": "pink", "font-weight": "800"});
+
 	},
+    
+   
+
+
+
+
+    
 });
