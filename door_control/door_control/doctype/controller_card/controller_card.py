@@ -5,7 +5,6 @@ import frappe
 from frappe.model.document import Document
 import requests
 
-
 class controller_card(Document):
 
 	@frappe.whitelist()
@@ -45,32 +44,60 @@ class controller_card(Document):
 			url = base + "/cards"
 			r=requests.get(url)
 			cards = r.json()['cards']
-			db_cards = frappe.db.get_all('controller_card', pluck='ctrl_card')
+			db_cards = frappe.db.get_all('controller_card', fields = ['ctrl_card', 'name'])
 			for cardnum in cards:
-				ctrl_card = ctrl_str + " : " + str(cardnum)
-				if ctrl_card in db_cards:
-					continue
 				card = self.get_card(cardnum,base)['card']
-				card_doc = frappe.get_doc({
-					'doctype':			'controller_card',
-					'controller':		controller,
-					'cardnum':			card['card-number'],
-					# 'pin':				card.pin,
-					'start_date':		card['start-date'],
-					'end_date':			card['end-date'],
-					'd1':				card['doors']['1'],
-					'd2':				card['doors']['2'],
-					'd3':				card['doors']['3'],
-					'd4':				card['doors']['4'],
-					'ctrl_card':		ctrl_card,
-				})
-				res = card_doc.insert()
-				cnt += 1
+				ctrl_card = ctrl_str + " : " + str(cardnum)
+				db_card = [i for i in db_cards if i['ctrl_card'] == ctrl_card ]
+
+				if db_card == []:
+					card_doc = frappe.new_doc('controller_card')
+					card_doc = self.setup_card(card_doc, card, controller, ctrl_card)
+					res = card_doc.insert()
+					cnt += 1
+				else:
+					card_doc = frappe.get_doc('controller_card',db_card[0].name)
+					card_doc = self.setup_card(card_doc, card, controller, ctrl_card)
+					res = card_doc.save()
+
+					# #not found so insert new card in database
+					# card_doc = frappe.new_doc('controller_card')
+					# card_doc = self.setup_card(card_doc, card, controller, ctrl_card)
+					# res = card_doc.insert()
+					# cnt += 1
+
 		num_orphans = self.mark_orphan_cards()
 		frappe.msgprint ("Added " + str(cnt) + " card(s)")
 		frappe.msgprint ("found and marked " + str(num_orphans) + " orphans")
 		return r
-	
+		
+	def setup_card(self,card_doc,card,controller,ctrl_card):
+		card_doc.controller = controller
+		card_doc.cardnum = 		card['card-number']
+		card_doc.start_date = 	card['start-date']
+		card_doc.end_date = 	card['end-date']
+		card_doc.d1 = 			card['doors']['1']
+		card_doc.d2 = 			card['doors']['2']
+		card_doc.d3 = 			card['doors']['3']
+		card_doc.d4 = 			card['doors']['4']
+		card_doc.ctrl_card =	ctrl_card
+
+		return card_doc
+
+		# 	'doctype':			'controller_card',
+		# 	'controller':		controller,
+		# 	'cardnum':			card['card-number'],
+		# 	# 'pin':				card.pin,
+		# 	'start_date':		card['start-date'],
+		# 	'end_date':			card['end-date'],
+		# 	'd1':				card['doors']['1'],
+		# 	'd2':				card['doors']['2'],
+		# 	'd3':				card['doors']['3'],
+		# 	'd4':				card['doors']['4'],
+		# 	'ctrl_card':		ctrl_card,
+		# })
+		# return card_doc
+		
 	def get_card(self, card, base):
 		url = base + "/card/" + str(card)
 		r = requests.get(url)

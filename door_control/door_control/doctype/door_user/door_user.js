@@ -23,16 +23,18 @@ frappe.ui.form.on('user_access', {
 frappe.ui.form.on("door_user", {
 	refresh(frm) {
 
-        frm.add_custom_button(__("get card"), function() {
+        frm.add_custom_button(__("download controller card"), function() {
             frm.call('get_card', { arg1: "value" })
             .then(r => {
                 debugger
-                cur_frm.doc.card_resp = r.message[0]
+                cur_frm.doc.card_resp = r.message;
+                frm.refresh_field('card_resp');
             })
             frm.call('get_cards', { arg1: "value" })
             .then(r => {
                 debugger
-                cur_frm.doc.all_cards = r.message
+                cur_frm.doc.all_cards = r.message;
+                frm.refresh_field('all_cards');
             })
         }).css({"color":"white", "background-color": "blue", "font-weight": "800"});
 
@@ -73,11 +75,11 @@ frappe.ui.form.on("door_user", {
 
 function copy_template (frm) {
 
-    frm.call('get_access_by_template', { arg1: "value" })
-    .then(r => {
-        debugger
-        console.log (r.message)
-    })
+    // frm.call('get_access_by_template', { arg1: "value" })
+    // .then(r => {
+    //     debugger
+    //     console.log (r.message)
+    // })
 
     frappe.db.get_list('controller', {
     filters: {'active': 1,},

@@ -112,8 +112,8 @@ class door_user(Document):
 			self.append('override', access)
 
 	def validate(self):
-		u = get_uhpp()
-		# x = datetime.datetime(2020, 5, 17)
+		if self.pin == None:
+			self.pin = 0
 
 		start = datetime.datetime(1970, 1, 1)
 		end = datetime.datetime(2099, 12, 31)
@@ -139,37 +139,34 @@ class door_user(Document):
 			controller.add_card(self.code, doorset, self.pin)
 			# res = u.put_card(int(ctrl), int(self.code), start, end, d1, d2, d3, d4, int(self.pin) )
 
+
 	@frappe.whitelist()
 	def get_card(self):
-		# xxx document what this does
-		u = get_uhpp()
 		s = set()
 		cardset = []
+		cardstr = ""
 		for a in self.override:
 			if a.controller not in s:
 				s.add(a.controller)
-				ctrl = int(a.controller)
-				card = int(self.code)
-				card_obj =u.get_card(ctrl,card)
-				card_dict = card_obj.__dict__
-				# card_str = json.dumps(card_dict)
-				card_str = json.dumps(card_dict, indent=4, sort_keys=True, default=str)
-				cardset.append(card_str)
-		return cardset
+				ctrl = frappe.get_doc('controller',a.controller)
+				card = ctrl.get_card(self.code)
+
+				cardset.append(card)
+				cardstr += str(ctrl.serial_number) + ": " + str(card) + '\n'
+		return cardstr
 
 
 	@frappe.whitelist()
 	def get_cards(self):
-		u = get_uhpp()
 		s = set()
 		cardset = []
+		cardstr = ""
 		for a in self.override:
 			if a.controller not in s:
 				s.add(a.controller)
-				ctrl = int(a.controller)
-				allcards_obj =u.get_cards(ctrl)
-				allcards_dict = allcards_obj.__dict__
-				# card_str = json.dumps(card_dict)
+				ctrl = frappe.get_doc('controller',a.controller)
+				allcards_obj = ctrl.get_cards()
 				allcards_str = json.dumps(allcards_obj, indent=4, sort_keys=True, default=str)
 				cardset.append(allcards_str)
-		return cardset
+				cardstr += "ctrl: " + ctrl.serial_number + '\n' + allcards_str + '\n'
+		return cardstr

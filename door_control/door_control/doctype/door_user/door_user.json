@@ -9,9 +9,9 @@
   "full_name",
   "group",
   "code",
+  "pin",
   "template",
   "override",
-  "pin",
   "foreign",
   "controller_data_tab",
   "card_number",
@@ -32,7 +32,8 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "code",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "pin",
@@ -96,7 +97,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-07 16:51:27.247977",
+ "modified": "2024-04-09 18:06:27.479446",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",
