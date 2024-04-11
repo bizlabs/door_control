@@ -17,7 +17,9 @@
   "mac_address",
   "gateway",
   "subnet_mask",
-  "version"
+  "version",
+  "type",
+  "date"
  ],
  "fields": [
   {
@@ -92,11 +94,21 @@
    "fieldname": "active",
    "fieldtype": "Check",
    "label": "active"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Data",
+   "label": "type"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Data",
+   "label": "manufacture date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-26 18:29:58.771128",
+ "modified": "2024-04-10 13:02:43.222531",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "controller",

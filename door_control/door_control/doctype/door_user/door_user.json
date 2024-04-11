@@ -36,9 +36,12 @@
    "unique": 1
   },
   {
+   "default": "0",
+   "description": "use 0 for no PIN",
    "fieldname": "pin",
    "fieldtype": "Data",
-   "label": "pin"
+   "label": "pin",
+   "reqd": 1
   },
   {
    "description": "Changing template will not change overridden access permissions",
@@ -97,7 +100,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-09 18:06:27.479446",
+ "modified": "2024-04-10 07:45:00.114741",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",

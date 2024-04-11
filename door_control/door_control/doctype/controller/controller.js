@@ -3,9 +3,16 @@
 
 frappe.ui.form.on("controller", {
 	refresh(frm) {
+        frm.add_custom_button(__("send swipe"), function() {
+            frm.call('send_swipe', { arg1: "value" })
+            .then(r => {
+                debugger
+                console.log (r.message)
+            })
+        }).css({"color":"black", "background-color": "pink", "font-weight": "800"});
 
         frm.add_custom_button(__("Search controllers"), function() {
-            frm.call('get_all_controllers', { arg1: "value" })
+            frm.call('search_new_controllers', { arg1: "value" })
             .then(r => {
                 debugger
                 frappe.msgprint("found " + r.message + " NEW controllers")

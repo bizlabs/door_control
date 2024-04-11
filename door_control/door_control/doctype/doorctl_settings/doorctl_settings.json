@@ -1,0 +1,52 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-10 14:33:02.569081",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "rest_ip",
+  "rest_port",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "rest_ip",
+   "fieldtype": "Data",
+   "label": "IP Address of uhppote REST server"
+  },
+  {
+   "fieldname": "rest_port",
+   "fieldtype": "Data",
+   "label": "port of uhppote REST server"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-04-10 15:19:09.706879",
+ "modified_by": "Administrator",
+ "module": "Door Control",
+ "name": "doorctl_settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

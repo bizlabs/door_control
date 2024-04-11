@@ -1,0 +1,98 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-10 14:36:30.572712",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "event_ndx",
+  "dev_id",
+  "controller",
+  "event_id",
+  "timestamp",
+  "code",
+  "user",
+  "door",
+  "access_granted",
+  "reason_code"
+ ],
+ "fields": [
+  {
+   "fieldname": "event_ndx",
+   "fieldtype": "Int",
+   "label": "event index"
+  },
+  {
+   "fieldname": "dev_id",
+   "fieldtype": "Int",
+   "label": "device ID"
+  },
+  {
+   "fieldname": "controller",
+   "fieldtype": "Link",
+   "label": "controller",
+   "options": "controller"
+  },
+  {
+   "fieldname": "event_id",
+   "fieldtype": "Int",
+   "label": "event ID"
+  },
+  {
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "label": "timestamp"
+  },
+  {
+   "fieldname": "code",
+   "fieldtype": "Int",
+   "label": "code"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "user",
+   "options": "door_user"
+  },
+  {
+   "fieldname": "door",
+   "fieldtype": "Data",
+   "label": "door"
+  },
+  {
+   "default": "0",
+   "fieldname": "access_granted",
+   "fieldtype": "Check",
+   "label": "access granted"
+  },
+  {
+   "fieldname": "reason_code",
+   "fieldtype": "Int",
+   "label": "reason code"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-10 14:56:51.898423",
+ "modified_by": "Administrator",
+ "module": "Door Control",
+ "name": "events",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

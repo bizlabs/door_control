@@ -3,15 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
-from uhppoted import uhppote
 import datetime, json, requests
-
-def get_uhpp():
-	bind = '0.0.0.0'
-	broadcast = '255.255.255.255:60000'
-	listen = '0.0.0.0:60001'
-	debug = False
-	return uhppote.Uhppote(bind, broadcast, listen, debug)
 
 
 class door_user(Document):
@@ -31,28 +23,12 @@ class door_user(Document):
 		for ctrl_str in controllers:
 			controller = frappe.get_doc('controller', ctrl_str)
 			controller.delete_card(self.code)
-		
-		# self.delete()
-
-			# base = controller.get_baseurl()
-			# url = base + "/card/" + str(self.code)
-			# payload = {}
-			# headers = {
-			# 'Authorization': 'Basic <credentials>'
-			# }
-			# response = requests.request("DELETE", url, headers=headers, data=payload)
-			# pass
 
 	@frappe.whitelist()
 	def import_cards(self):
 		controllers = frappe.db.get_all('controller', pluck='name')
 		for ctrl_str in controllers:
 			controller = frappe.get_doc('controller', ctrl_str)
-
-			# base = controller.get_baseurl()
-			# url = base + "/cards"
-			# r=requests.get(url)
-			# cards = r.json()['cards']
 
 			cards = controller.get_cards()
 			db_cards = frappe.get_all('door_user', fields=['name','code'])
@@ -76,7 +52,7 @@ class door_user(Document):
 					new_user = frappe.get_doc({
 						'doctype': 'door_user',
 						'code': card,
-						'pin': fullcard['pin'],
+						'pin': fullcard['PIN'],
 						'foreign': True,
 					})
 					new_user.insert()
@@ -111,10 +87,15 @@ class door_user(Document):
 				}
 			self.append('override', access)
 
-	def validate(self):
-		if self.pin == None:
-			self.pin = 0
+	def before_save(self):
+		pass
+		db_code = frappe.db.get_value('door_user',self.name,'code')
+		if db_code == None:
+			return # this is a new user so don't check if code is changed
+		if db_code != str(self.code):
+			frappe.throw("You cannot change the code.  Create a new user instead")
 
+	def validate(self):
 		start = datetime.datetime(1970, 1, 1)
 		end = datetime.datetime(2099, 12, 31)
 		s = set()
