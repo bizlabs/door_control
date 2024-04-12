@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-04-10 14:36:30.572712",
+ "creation": "2024-04-11 11:25:00.894210",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -21,25 +21,23 @@
   {
    "fieldname": "event_ndx",
    "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "event index"
+   "label": "Event ID"
   },
   {
    "fieldname": "dev_id",
    "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "device ID"
+   "label": "Device ID"
   },
   {
    "fieldname": "controller",
    "fieldtype": "Link",
-   "label": "controller",
+   "label": "Controller",
    "options": "controller"
   },
   {
    "fieldname": "timestamp",
    "fieldtype": "Data",
-   "label": "timestamp"
+   "label": "Timestamp"
   },
   {
    "fieldname": "code",
@@ -49,42 +47,43 @@
   {
    "fieldname": "user",
    "fieldtype": "Link",
-   "label": "user",
+   "label": "User",
    "options": "door_user"
   },
   {
    "fieldname": "door",
    "fieldtype": "Data",
-   "label": "door"
+   "label": "Door"
   },
   {
    "default": "0",
    "fieldname": "access_granted",
    "fieldtype": "Check",
-   "label": "access granted"
+   "label": "Access Granted"
   },
   {
    "fieldname": "reason",
-   "fieldtype": "Int",
-   "label": "reason"
+   "fieldtype": "Data",
+   "label": "Reason"
   },
   {
    "fieldname": "direction",
    "fieldtype": "Data",
-   "label": "direction"
+   "label": "Direction"
   },
   {
    "fieldname": "event_type",
    "fieldtype": "Data",
-   "label": "event type"
+   "label": "Event Type"
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_virtual": 1,
  "links": [],
- "modified": "2024-04-11 11:02:52.598958",
+ "modified": "2024-04-11 11:31:51.799084",
  "modified_by": "Administrator",
  "module": "Door Control",
- "name": "events",
+ "name": "v_event",
  "owner": "Administrator",
  "permissions": [
   {

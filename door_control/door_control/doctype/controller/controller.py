@@ -3,7 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
-import datetime, requests, json
+import datetime, requests, json, time
 
 def get_subbase_url():
     settings = frappe.get_doc('doorctl_settings')
@@ -53,8 +53,37 @@ def get_new_ctrls(all, exist):
     
 class controller(Document):
 
-    def send_swipe(self):
+    def get_events(self):
         url = self.get_baseurl()
+        url += "/events"
+        r=requests.get(url)
+        tries = 0
+        while tries < 5:
+            try:
+                return r.json()['events']
+            except:
+                time.sleep(1)
+                tries += 1
+        frappe.throw(r.json()['tag'] + "\n" + r.json()['message'] )
+    
+    def get_event(self,ndx):
+        url = self.get_baseurl()
+        url += "/event/" + str(ndx)
+        r = requests.get(url)
+        tries = 0
+        while tries < 5:
+            try:
+                return r.json()['event']
+            except:
+                time.sleep(1)
+                tries += 1 
+        frappe.throw(r.json()['tag'] + "-" + r.json()['message'] )
+            
+
+    @frappe.whitelist()
+    def send_swipe(self):
+        devid = str(self.serial_number)
+        url = "http://10.60.104.132:8000/uhppote/simulator/" + devid + "/swipe"
         req = {
             "door": 0,
             "card-number": 123456,
