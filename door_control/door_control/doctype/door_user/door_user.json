@@ -1,6 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "field:code",
  "creation": "2024-02-04 16:07:26.321497",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -100,10 +100,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-10 07:45:00.114741",
+ "modified": "2024-04-14 08:48:15.231773",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

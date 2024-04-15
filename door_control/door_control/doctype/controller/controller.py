@@ -64,7 +64,7 @@ class controller(Document):
             except:
                 time.sleep(1)
                 tries += 1
-        frappe.throw(r.json()['tag'] + "\n" + r.json()['message'] )
+        # frappe.throw(r.json()['tag'] + "\n" + r.json()['message'] )
     
     def get_event(self,ndx):
         url = self.get_baseurl()
@@ -77,7 +77,7 @@ class controller(Document):
             except:
                 time.sleep(1)
                 tries += 1 
-        frappe.throw(r.json()['tag'] + "-" + r.json()['message'] )
+        # frappe.throw(r.json()['tag'] + "-" + r.json()['message'] )
             
 
     @frappe.whitelist()
@@ -103,7 +103,7 @@ class controller(Document):
         base = self.get_baseurl()
         url = base + "/card/" + str(cardnum)
         start = "1970-01-01"
-        end = "2099-12-31"
+        end = "2199-12-31"
         payload = json.dumps({
 		"start-date": start,
 		"end-date": end,
@@ -114,14 +114,20 @@ class controller(Document):
 		'Content-Type': 'application/json',
 		'Authorization': 'Basic <credentials>'
 		}
-        response = requests.request("PUT", url, headers=headers, data=payload)
+        r = requests.request("PUT", url, headers=headers, data=payload)
+        if r.status_code != 200:
+            frappe.throw("Error:  could not communicate with the controller")
+        return True
         
+                
     def delete_card(self, cardnum):
         base = self.get_baseurl()
         url = base + "/card/" + str(cardnum)
         payload = {}
         headers = {'Accept': 'application/json'}
         r=requests.request("DELETE",url, headers=headers, data=payload)
+        if r.status_code != 200:
+            frappe.throw("Error:  could not communicate with the controller")
         return True
     
     def get_cards(self):

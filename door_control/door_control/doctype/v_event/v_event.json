@@ -30,29 +30,32 @@
   },
   {
    "fieldname": "controller",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Controller",
    "options": "controller"
   },
   {
    "fieldname": "timestamp",
-   "fieldtype": "Data",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
    "label": "Timestamp"
   },
   {
    "fieldname": "code",
    "fieldtype": "Int",
+   "in_list_view": 1,
    "label": "code"
   },
   {
    "fieldname": "user",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "User",
    "options": "door_user"
   },
   {
    "fieldname": "door",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Door"
   },
   {
@@ -80,7 +83,7 @@
  "index_web_pages_for_search": 1,
  "is_virtual": 1,
  "links": [],
- "modified": "2024-04-11 11:31:51.799084",
+ "modified": "2024-04-12 23:57:46.464211",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "v_event",

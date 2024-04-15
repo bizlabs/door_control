@@ -7,6 +7,8 @@
  "field_order": [
   "rest_ip",
   "rest_port",
+  "vera_ip",
+  "vera_port",
   "notes"
  ],
  "fields": [
@@ -24,12 +26,23 @@
    "fieldname": "notes",
    "fieldtype": "Small Text",
    "label": "notes"
+  },
+  {
+   "description": "for future use",
+   "fieldname": "vera_ip",
+   "fieldtype": "Data",
+   "label": "Vera IP Address"
+  },
+  {
+   "fieldname": "vera_port",
+   "fieldtype": "Data",
+   "label": "Vera Port"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-04-10 15:19:09.706879",
+ "modified": "2024-04-14 16:43:20.948149",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "doorctl_settings",

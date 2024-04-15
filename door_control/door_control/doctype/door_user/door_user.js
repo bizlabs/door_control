@@ -23,7 +23,7 @@ frappe.ui.form.on('user_access', {
 frappe.ui.form.on("door_user", {
 	refresh(frm) {
 
-        frm.add_custom_button(__("download controller card"), function() {
+        frm.add_custom_button(__("Inspect this card on controller"), function() {
             frm.call('get_card', { arg1: "value" })
             .then(r => {
                 debugger

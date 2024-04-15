@@ -3,12 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
-
-@frappe.whitelist()
-def get_recent(qty):
-	event = frappe.new_doc('v_event')
-	event.get_list({'page_length': qty})
-	return True
+from datetime import datetime, timedelta
 
 class v_event(Document):
 	
@@ -28,14 +23,15 @@ class v_event(Document):
 					if ndx not in db_events:
 						numtot += 1
 						event = ctrl.get_event(ndx)
-						db_event = self.map_event(event)
+						event_dict = self.map_event(event)
+						db_event = frappe.get_doc (event_dict)
 						db_event.insert()
 		# frappe.msgprint("downloaded " + str(numtot) + " events")
 		return numtot
 					
 	def map_event(self, event):
 		event_date = event['timestamp']
-		db_event = frappe.get_doc ({
+		event_dict = {
 			'doctype':		'events',
 			'event_ndx':		event['event-id'],
 			'dev_id':			event['device-id'],
@@ -46,28 +42,26 @@ class v_event(Document):
 			'reason':			event['event-reason-text'],
 			'event_type':		event['event-type-text'],
 			'direction':		event['direction-text'],
-		})
-		return db_event
+		}
+		return event_dict
 
 	def db_insert(self, *args, **kwargs):
 		pass
 
 	def load_from_db(self):
-		event_id = self.event_ndx
-		ctrl = frappe.get_doc('controller',self.serial_number)
-		card = ctrl.get_event(self.event_id)
-		d = {
-			'controller':	ctrl.serial_number, 
-			'code':			card['card-number'],
-			'start_date':	card['start-date'],
-			'end_date':		card['end-date'],
-			'doors':		str(card['doors']),
-			'pin':			card['PIN'],
+		parsed = self.name.split(':')
+		ID = parsed[0]; eid = parsed[1]
+		ctrl = frappe.get_doc('controller',ID)
+		event = ctrl.get_event(eid)
+		d = self.map_event(event)
+		d.pop('doctype', None)
+		d['controller'] = ctrl.location
+		x = frappe.get_all('door_user', filters={'code': str(['code'])}, pluck='full_name')
+		d['user'] = None if x==[] else x[0]
+		d['door'] = getattr(ctrl, 'doorname_' + d['door'])
 
-		}
-
-		# d = get_info_user(self.name)
 		super(Document, self).__init__(d)
+		pass
 
 	def db_update(self):
 		pass
@@ -78,25 +72,38 @@ class v_event(Document):
 
 	@staticmethod
 	def get_list(args):
+		pass
+		# xxx loop thru args.filters
+		# eg args.filters[0][1] = field [2] = compare operator, [3] = condition to compare
+		# eg ['v_event','timestamp', '>', some_date]
+		# or ['v_event','timestamp', 'Between', [date1,date2]]
+		# ignore other filters for now
+
 		num_events = int(args['page_length'])
 		eventset = []
 		ctrls = frappe.get_all('controller')
-		for ID in ctrls:
+		miss = 0
+		for ID in ctrls: 
 			ctrl = frappe.get_doc('controller',ID.name)
 			events = ctrl.get_events()
 			for i in range(events['last'], events['last']  - num_events, -1):
 				event = ctrl.get_event(i)
+				if not event:
+					miss += 1
+					continue
 				eventset.append({
+					'name': 		str(event['device-id']) + ":" + str(event['event-id']),
 					'event_ndx':	event['event-id'], 
 					'dev_id':		event['device-id'], 
-					'date':			event['timestamp'],
+					'timestamp':	event['timestamp'],
 					'code':			event['card-number'],
 					'event_type':	event['event-type-text'],
 					'access_granted':	event['access-granted'],
-
+					'door':			str(event['door-id']),
 					})
+		if miss > 0:
+			frappe.msgprint(str(miss) + " events were skipped because controller timed out")
 		return  eventset
-		pass
 
 	@staticmethod
 	def get_count(args):
@@ -105,8 +112,3 @@ class v_event(Document):
 	@staticmethod
 	def get_stats(args):
 		pass
-
-	# @frappe.whitelist()
-	# def get_recent(self):
-	# 	frappe.msgprint("getting recent...")
-	# 	return self

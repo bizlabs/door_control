@@ -1,21 +1,18 @@
 {
  "actions": [],
- "allow_rename": 1,
  "creation": "2024-04-10 14:36:30.572712",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "event_ndx",
   "dev_id",
-  "controller",
-  "timestamp",
   "code",
-  "user",
   "door",
   "access_granted",
   "reason",
   "direction",
-  "event_type"
+  "event_type",
+  "user"
  ],
  "fields": [
   {
@@ -31,26 +28,10 @@
    "label": "device ID"
   },
   {
-   "fieldname": "controller",
-   "fieldtype": "Link",
-   "label": "controller",
-   "options": "controller"
-  },
-  {
-   "fieldname": "timestamp",
-   "fieldtype": "Data",
-   "label": "timestamp"
-  },
-  {
    "fieldname": "code",
    "fieldtype": "Int",
+   "in_list_view": 1,
    "label": "code"
-  },
-  {
-   "fieldname": "user",
-   "fieldtype": "Link",
-   "label": "user",
-   "options": "door_user"
   },
   {
    "fieldname": "door",
@@ -76,19 +57,26 @@
   {
    "fieldname": "event_type",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "event type"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "User Name"
   }
  ],
+ "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-11 11:02:52.598958",
+ "modified": "2024-04-14 00:17:26.197800",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "events",
  "owner": "Administrator",
  "permissions": [
   {
-   "create": 1,
    "delete": 1,
    "email": 1,
    "export": 1,
@@ -96,8 +84,7 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
-   "share": 1,
-   "write": 1
+   "share": 1
   }
  ],
  "sort_field": "modified",
