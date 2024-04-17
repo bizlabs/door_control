@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_rename": 1,
  "autoname": "field:code",
  "creation": "2024-02-04 16:07:26.321497",
  "doctype": "DocType",
@@ -96,18 +97,20 @@
    "description": "This was downloaded from the controller so came from another source.\n",
    "fieldname": "foreign",
    "fieldtype": "Check",
-   "label": "Foreign Source"
+   "label": "Foreign Source",
+   "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "db_save_only",
    "fieldtype": "Check",
-   "label": "db_save_only"
+   "label": "db_save_only",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-16 21:22:17.076490",
+ "modified": "2024-04-17 07:34:58.606314",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",
