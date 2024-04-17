@@ -22,7 +22,8 @@ class events(Document):
 	@property
 	def user(self):
 		try:
-			user = frappe.get_doc('door_user',str(self.code))
+			user = frappe.get_all('door_user',filters={'code':self.code},fields=['full_name'])[0]
+			# user = frappe.get_doc('door_user',usernames[0])
 		except:
 			return # no user found
 		return user.full_name

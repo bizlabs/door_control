@@ -21,7 +21,7 @@ class door_user(Document):
 		return accs
 	
 	
-	def on_trash(self):
+	def on_trash(self): 
 		controllers = frappe.db.get_all('controller', pluck='name')
 		for ctrl_str in controllers:
 			controller = frappe.get_doc('controller', ctrl_str)

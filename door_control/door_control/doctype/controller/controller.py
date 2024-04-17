@@ -52,6 +52,10 @@ def get_new_ctrls(all, exist):
 	return cnt
     
 class controller(Document):
+     
+    @property
+    def v_sn(self):
+       return self.serial_number
 
     def get_events(self):
         url = self.get_baseurl()

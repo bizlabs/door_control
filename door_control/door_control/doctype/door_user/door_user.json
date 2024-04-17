@@ -1,7 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
- "autoname": "field:code",
+ "autoname": "hash",
  "creation": "2024-02-04 16:07:26.321497",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -110,11 +109,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-17 07:34:58.606314",
+ "modified": "2024-04-17 08:07:41.996171",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",
- "naming_rule": "By fieldname",
+ "naming_rule": "Random",
  "owner": "Administrator",
  "permissions": [
   {
@@ -130,7 +129,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "full_name"
 }
