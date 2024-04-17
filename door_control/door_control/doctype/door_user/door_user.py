@@ -45,6 +45,7 @@ class door_user(Document):
 								break # out of access loop and go to next db_card (which immediately breaks below to next card)
 						#didn't find this controller so we'll add it 
 						user.add_controller(fullcard, controller)
+						user.db_save_only = True
 						user.save()
 						break # out of db_card and go to next card
 				if not found:
@@ -55,6 +56,7 @@ class door_user(Document):
 						'pin': fullcard['PIN'],
 						'foreign': True,
 					})
+					new_user.db_save_only = True
 					new_user.insert()
 					#set child element
 					new_user.add_controller(fullcard, controller)
@@ -94,8 +96,14 @@ class door_user(Document):
 			return # this is a new user so don't check if code is changed
 		if db_code != str(self.code):
 			frappe.throw("You cannot change the code.  Create a new user instead")
-
+	
 	def validate(self):
+		if not self.db_save_only:
+			self.save_card_on_controller()
+		self.db_save_only = False
+		# continue with other validations
+
+	def save_card_on_controller(self):
 		start = datetime.datetime(1970, 1, 1)
 		end = datetime.datetime(2099, 12, 31)
 		s = set()
