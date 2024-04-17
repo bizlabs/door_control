@@ -14,6 +14,7 @@
   "doorname_3",
   "doorname_4",
   "notes",
+  "v_sn",
   "mac_address",
   "gateway",
   "subnet_mask",
@@ -104,11 +105,17 @@
    "fieldname": "date",
    "fieldtype": "Data",
    "label": "manufacture date"
+  },
+  {
+   "fieldname": "v_sn",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Serial Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-10 13:02:43.222531",
+ "modified": "2024-04-17 09:04:54.069287",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "controller",

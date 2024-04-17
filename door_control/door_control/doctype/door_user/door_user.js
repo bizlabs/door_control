@@ -63,6 +63,7 @@ frappe.ui.form.on("door_user", {
     },
 
     'template': function(frm) {
+        debugger
         copy_template(frm);
     },
     
@@ -95,24 +96,29 @@ function copy_template (frm) {
         frm.call('get_access_by_template', { arg1: "value" })
         .then(r => {
             debugger
-            accesses = r.message
-            for (a of accesses) {
-                var exist = cur_frm.doc.override.find(e => (e.doornum === a.doornum && e.controller === a.controller));
-                if (!exist) {
-                    var b = frm.add_child('override');
-                    b.controller = a.controller; b.doornum=a.doornum; b.access = a.access; 
-                }
-                else {
-                    // found the item.  copy access if not overriden
-                    if (!exist.override) {
-                        exist.access = a.access;
+            if (r.message === undefined) {
+                
+            }
+            else{
+                accesses = r.message
+                for (a of accesses) {
+                    var exist = cur_frm.doc.override.find(e => (e.doornum === a.doornum && e.controller === a.controller));
+                    if (!exist) {
+                        var b = frm.add_child('override');
+                        b.controller = a.controller; b.doornum=a.doornum; b.access = a.access; 
+                    }
+                    else {
+                        // found the item.  copy access if not overriden
+                        if (!exist.override) {
+                            exist.access = a.access;
+                        }
                     }
                 }
+                for (a of cur_frm.doc.override) {
+                    a.door_name = ctrls[a.controller]['doorname_'+a.doornum];
+                }
+                frm.refresh_field('override');
             }
-            for (a of cur_frm.doc.override) {
-                a.door_name = ctrls[a.controller]['doorname_'+a.doornum];
-            }
-            frm.refresh_field('override');
         })
 
 

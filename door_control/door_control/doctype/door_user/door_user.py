@@ -10,15 +10,18 @@ class door_user(Document):
 
 	@frappe.whitelist()
 	def get_access_by_template(self):
-		accs = frappe.get_all('access', 
-			filters = {'parent': self.template,},
-			fields = ['name', 'access','controller','doornum'],
-			# fields: ['name', 'access','name','name','name','controller','name','doornum'],
-		)
+		if self.template == None:
+			accs = None
+		else:
+			accs = frappe.get_all('access', 
+				filters = {'parent': self.template,},
+				fields = ['name', 'access','controller','doornum'],
+				# fields: ['name', 'access','name','name','name','controller','name','doornum'],
+			)
 		return accs
 	
 	
-	def on_trash(self):
+	def on_trash(self): 
 		controllers = frappe.db.get_all('controller', pluck='name')
 		for ctrl_str in controllers:
 			controller = frappe.get_doc('controller', ctrl_str)
@@ -40,13 +43,11 @@ class door_user(Document):
 						found = True
 						# check for controller and add a child record if needed
 						user = frappe.get_doc('door_user', db_card.name)
-						for access in user.override:
-							if access.controller == controller.serial_number:
-								break # out of access loop and go to next db_card (which immediately breaks below to next card)
-						#didn't find this controller so we'll add it 
-						user.add_controller(fullcard, controller)
-						user.db_save_only = True
-						user.save()
+						if not user.has_controller(controller):	
+							#didn't find this controller so we'll add it 
+							user.add_controller(fullcard, controller)
+							user.db_save_only = True
+							user.save()
 						break # out of db_card and go to next card
 				if not found:
 					# fullcard = controller.get_card(card) # deleteme?
@@ -57,27 +58,22 @@ class door_user(Document):
 						'foreign': True,
 					})
 					new_user.db_save_only = True
-					new_user.insert()
+					# new_user.insert()
 					#set child element
 					new_user.add_controller(fullcard, controller)
-
-
-				# xxx delete below after confirming move to function works
-					# doors = [fullcard.door_1,fullcard.door_2,fullcard.door_3,fullcard.door_4]
-					# for d in [1,2,3,4]:
-					# 	access = {
-					# 		'controller':	controller.name,
-					# 		'doornum': 		d,
-					# 		'access':		doors[d-1],
-					# 		}
-					# 	new_user.append('override', access)
-					new_user.save()
+					new_user.insert()
 		frappe.msgprint("done importing")
 					
 					
 			#xxx now look for matching card/controller set in db
 			# and create a new one with foreign = true if not found
-	
+   
+	def has_controller(self,controller):
+		for access in self.override:
+			if access.controller == controller.serial_number:
+				return True
+		return False
+
 	def add_controller(self, fullcard, controller):
 		fd = fullcard['doors']
 		doors = [fd['1'],fd['2'],fd['3'],fd['4'] ]
