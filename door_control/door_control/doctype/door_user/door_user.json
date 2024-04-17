@@ -13,6 +13,7 @@
   "template",
   "override",
   "foreign",
+  "db_save_only",
   "controller_data_tab",
   "card_number",
   "card_resp",
@@ -96,11 +97,17 @@
    "fieldname": "foreign",
    "fieldtype": "Check",
    "label": "Foreign Source"
+  },
+  {
+   "default": "0",
+   "fieldname": "db_save_only",
+   "fieldtype": "Check",
+   "label": "db_save_only"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-14 08:48:15.231773",
+ "modified": "2024-04-16 21:22:17.076490",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",
