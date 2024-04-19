@@ -120,7 +120,7 @@ class controller(Document):
 		}
         r = requests.request("PUT", url, headers=headers, data=payload)
         if r.status_code != 200:
-            frappe.throw("Error:  could not communicate with the controller")
+            frappe.throw(str(r.status_code) + "PutCommErr: url: " + url)
         return True
         
                 
@@ -131,7 +131,7 @@ class controller(Document):
         headers = {'Accept': 'application/json'}
         r=requests.request("DELETE",url, headers=headers, data=payload)
         if r.status_code != 200:
-            frappe.throw("Error:  could not communicate with the controller")
+            frappe.throw(str(r.status_code) + "DelCommErr: url: " + url)
         return True
     
     def get_cards(self):
