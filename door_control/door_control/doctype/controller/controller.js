@@ -38,7 +38,7 @@ frappe.ui.form.on("controller", {
             ], (values) => {
                 console.log(values.cardnum, values.doors);
 
-                frm.call('add_card', { 'cardnum': values.cardnum, 'doors': values.doors, 'pin': '0'  })
+                frm.call('add_card_for_testing', { 'cardnum': values.cardnum, 'dstr': values.doors, 'pin': '0'  })
                 .then(r => {
                     debugger
                 })

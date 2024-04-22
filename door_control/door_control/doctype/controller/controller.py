@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 import datetime, requests, json, time
+from frappe.utils import today
 
 def get_subbase_url():
     settings = frappe.get_doc('doorctl_settings')
@@ -103,16 +104,26 @@ class controller(Document):
         return get_all_controllers()
         
     @frappe.whitelist()
-    def add_card(self, cardnum, doors, pin):
+    def add_card_for_testing(self,cardnum, dstr, pin):
+        user = frappe.get_doc({
+            'doctype': 'door_user',
+            'code':		cardnum,
+            'pin':		pin,
+            'start':	today(),
+            'end':		"2099-12-31",
+        })
+        doors = [dstr[0],dstr[1],dstr[2],dstr[3]]
+        self.add_card(user, doors)
+
+    # @frappe.whitelist()
+    def add_card(self, user, doors):
         base = self.get_baseurl()
-        url = base + "/card/" + str(cardnum)
-        start = "1970-01-01"
-        end = "2199-12-31"
+        url = base + "/card/" + str(user.code)
         payload = json.dumps({
-		"start-date": start,
-		"end-date": end,
+		"start-date": user.start,
+		"end-date": user.end,
 		"doors": {'1':int(doors[0]),'2':int(doors[1]),'3':int(doors[2]),'4':int(doors[3])},
-		"PIN": int(pin)
+		"PIN": int(user.pin)
 		})
         headers = {
 		'Content-Type': 'application/json',
