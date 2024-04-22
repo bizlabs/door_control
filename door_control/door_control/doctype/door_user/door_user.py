@@ -24,8 +24,9 @@ class door_user(Document):
 	def on_trash(self): 
 		controllers = frappe.db.get_all('controller', pluck='name')
 		for ctrl_str in controllers:
-			controller = frappe.get_doc('controller', ctrl_str)
-			controller.delete_card(self.code)
+			if any(x for x in self.override if x.controller == ctrl_str):
+				controller = frappe.get_doc('controller', ctrl_str)
+				controller.delete_card(self.code)
 
 	@frappe.whitelist()
 	def import_cards(self):
@@ -121,8 +122,8 @@ class door_user(Document):
 			d4 = doors['d4']
 			doorset = [d1,d2,d3,d4]
 			controller = frappe.get_doc('controller',ctrl)
-			controller.add_card(self.code, doorset, self.pin)
-			# res = u.put_card(int(ctrl), int(self.code), start, end, d1, d2, d3, d4, int(self.pin) )
+			controller.add_card(self, doorset)
+			# controller.add_card(self.code, doorset, self.pin)
 
 
 	@frappe.whitelist()

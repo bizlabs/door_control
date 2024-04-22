@@ -22,7 +22,7 @@ frappe.ui.form.on('user_access', {
 
 frappe.ui.form.on("door_user", {
 	refresh(frm) {
-
+       
         frm.add_custom_button(__("Inspect this card on controller"), function() {
             frm.call('get_card', { arg1: "value" })
             .then(r => {
@@ -76,12 +76,6 @@ frappe.ui.form.on("door_user", {
 
 function copy_template (frm) {
 
-    // frm.call('get_access_by_template', { arg1: "value" })
-    // .then(r => {
-    //     debugger
-    //     console.log (r.message)
-    // })
-
     frappe.db.get_list('controller', {
     filters: {'active': 1,},
     fields: ['name','doorname_1', 'doorname_2', 'doorname_3', 'doorname_4'],
@@ -97,7 +91,7 @@ function copy_template (frm) {
         .then(r => {
             debugger
             if (r.message === undefined) {
-                
+                get_missing_access(frm);
             }
             else{
                 accesses = r.message
@@ -114,13 +108,42 @@ function copy_template (frm) {
                         }
                     }
                 }
-                for (a of cur_frm.doc.override) {
-                    a.door_name = ctrls[a.controller]['doorname_'+a.doornum];
-                }
-                frm.refresh_field('override');
             }
+            for (a of cur_frm.doc.override) {
+                a.door_name = ctrls[a.controller]['doorname_'+a.doornum];
+            }
+            frm.refresh_field('override');
         })
+    });
+}
 
-
+function get_missing_access (frm) {
+    // get any missing door accesses (override field)
+    // fills missing controller/door accesses (override field) when there is no template
+    frappe.db.get_list('controller', {
+        filters: {
+            'active': 1,
+        },
+    fields: ['name','doorname_1', 'doorname_2', 'doorname_3', 'doorname_4'],
+    limit: 500,
+    }).then(r => {
+        var ctrls = {};
+        for (const ctrl of r) {
+            for (let dn=1; dn <= 4; dn++){
+                found = false;
+                for (oride of frm.doc.override) {
+                    if (oride.doornum == dn && oride.controller == ctrl.name) {
+                        found = true;
+                        // oride.doorname = ctrl['doorname_'+dn]
+                        break;
+                    }
+                }
+                if (!found){
+                    var a = frm.add_child('override');
+                    a.controller = ctrl.name; a.doornum=dn; a.door_name = ctrl['doorname_'+dn]; a.access=false;
+                }
+            }
+        }  
+        frm.refresh_field('override');
     });
 }

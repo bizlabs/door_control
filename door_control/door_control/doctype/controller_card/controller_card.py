@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 import requests
+from frappe.utils import today
 
 class controller_card(Document):
 
@@ -13,10 +14,15 @@ class controller_card(Document):
 		ctlrs = frappe.get_all('controller')
 		for ctlr in ctlrs:
 			controller = frappe.get_doc('controller',ctlr)
-			controller.add_card(cardnum, doors, pin)
-		pass
-
-
+			user = frappe.get_doc({
+				'doctype': 'door_user',
+				'code':		cardnum,
+				'pin':		pin,
+				'start':	today(),
+				'end':		"2099-12-31",
+			})
+			controller.add_card(user, doors)
+		
 	def on_trash(self):
 		controller = frappe.get_doc('controller',self.controller)
 		base = controller.get_baseurl()

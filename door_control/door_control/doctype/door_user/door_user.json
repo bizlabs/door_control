@@ -14,6 +14,8 @@
   "override",
   "foreign",
   "db_save_only",
+  "start",
+  "end",
   "controller_data_tab",
   "card_number",
   "card_resp",
@@ -106,11 +108,25 @@
    "fieldtype": "Check",
    "label": "db_save_only",
    "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "start",
+   "fieldtype": "Date",
+   "label": "start",
+   "reqd": 1
+  },
+  {
+   "default": "2099-12-31",
+   "fieldname": "end",
+   "fieldtype": "Date",
+   "label": "end",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-17 14:00:39.372280",
+ "modified": "2024-04-20 20:02:39.317306",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",
