@@ -1,0 +1,47 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-25 06:20:51.360008",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "room",
+  "devnum",
+  "slot"
+ ],
+ "fields": [
+  {
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Room",
+   "options": "short_term_rentals"
+  },
+  {
+   "fetch_from": "room.vera_device_number",
+   "fieldname": "devnum",
+   "fieldtype": "Int",
+   "is_virtual": 1,
+   "label": "Lock device number"
+  },
+  {
+   "fieldname": "slot",
+   "fieldtype": "Data",
+   "label": "slot",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-04-26 11:17:46.233745",
+ "modified_by": "Administrator",
+ "module": "Door Control",
+ "name": "vera_access",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
