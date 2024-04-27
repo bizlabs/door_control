@@ -9,7 +9,11 @@
   "rest_port",
   "vera_ip",
   "vera_port",
-  "notes"
+  "notes",
+  "everything_template",
+  "nothing_template",
+  "guest_template",
+  "guest_group"
  ],
  "fields": [
   {
@@ -37,12 +41,36 @@
    "fieldname": "vera_port",
    "fieldtype": "Data",
    "label": "Vera Port"
+  },
+  {
+   "fieldname": "guest_template",
+   "fieldtype": "Link",
+   "label": "Short Term Guest Door Template",
+   "options": "door_template"
+  },
+  {
+   "fieldname": "everything_template",
+   "fieldtype": "Link",
+   "label": "Everything Door Template",
+   "options": "door_template"
+  },
+  {
+   "fieldname": "nothing_template",
+   "fieldtype": "Link",
+   "label": "Nothing Door Template",
+   "options": "door_template"
+  },
+  {
+   "fieldname": "guest_group",
+   "fieldtype": "Link",
+   "label": "Short Term Guest Group",
+   "options": "group"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-04-14 16:43:20.948149",
+ "modified": "2024-04-23 19:54:05.608358",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "doorctl_settings",

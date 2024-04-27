@@ -10,16 +10,20 @@
   "group",
   "code",
   "pin",
+  "start",
+  "end",
+  "uhpp_tab",
   "template",
   "override",
   "foreign",
   "db_save_only",
-  "start",
-  "end",
+  "vera_tab",
+  "vera_access",
   "controller_data_tab",
   "card_number",
   "card_resp",
-  "all_cards"
+  "all_cards",
+  "db_delete_only"
  ],
  "fields": [
   {
@@ -77,7 +81,7 @@
   {
    "fieldname": "controller_data_tab",
    "fieldtype": "Tab Break",
-   "label": "controller data"
+   "label": "Raw"
   },
   {
    "fieldname": "card_number",
@@ -122,11 +126,33 @@
    "fieldtype": "Date",
    "label": "end",
    "reqd": 1
+  },
+  {
+   "fieldname": "vera_access",
+   "fieldtype": "Table",
+   "label": "Vera Locks",
+   "options": "vera_access"
+  },
+  {
+   "fieldname": "uhpp_tab",
+   "fieldtype": "Tab Break",
+   "label": "uhpp"
+  },
+  {
+   "fieldname": "vera_tab",
+   "fieldtype": "Tab Break",
+   "label": "vera"
+  },
+  {
+   "default": "0",
+   "fieldname": "db_delete_only",
+   "fieldtype": "Check",
+   "label": "db delete only"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-20 20:02:39.317306",
+ "modified": "2024-04-26 21:32:31.473969",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",

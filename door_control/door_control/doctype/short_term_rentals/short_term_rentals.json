@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-23 06:58:32.210840",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "room_name",
+  "lock_type",
+  "vera_device_number",
+  "uhppote_controller",
+  "door_name",
+  "text_zzxe",
+  "door_num",
+  "raw_pins",
+  "vera_access"
+ ],
+ "fields": [
+  {
+   "fieldname": "room_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Room Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "lock_type",
+   "fieldtype": "Select",
+   "label": "Lock Type",
+   "options": "None\nVera\nUhppote"
+  },
+  {
+   "depends_on": "eval: doc.lock_type === \"Vera\";",
+   "description": "From vera hub\n",
+   "fieldname": "vera_device_number",
+   "fieldtype": "Int",
+   "label": "Vera Device Number"
+  },
+  {
+   "depends_on": "eval: doc.lock_type === \"Uhppote\";",
+   "fieldname": "uhppote_controller",
+   "fieldtype": "Link",
+   "label": "Uhppote Controller",
+   "options": "controller"
+  },
+  {
+   "fieldname": "text_zzxe",
+   "fieldtype": "Text",
+   "label": "Notes"
+  },
+  {
+   "depends_on": "eval: doc.lock_type === \"Uhppote\";",
+   "fieldname": "door_name",
+   "fieldtype": "Select",
+   "label": "Door"
+  },
+  {
+   "fieldname": "door_num",
+   "fieldtype": "Int",
+   "is_virtual": 1,
+   "label": "door_num"
+  },
+  {
+   "fieldname": "raw_pins",
+   "fieldtype": "Small Text",
+   "is_virtual": 1,
+   "label": "raw pins"
+  },
+  {
+   "fieldname": "vera_access",
+   "fieldtype": "Table",
+   "is_virtual": 1,
+   "label": "Vera Users",
+   "options": "vera_access_room"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-25 19:17:51.420521",
+ "modified_by": "Administrator",
+ "module": "Door Control",
+ "name": "short_term_rentals",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "room_name"
+}

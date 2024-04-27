@@ -7,6 +7,9 @@ from frappe.model.document import Document
 
 class door_template(Document):
 	def validate(self):
+		if self.flags.in_insert:
+			return
+		frappe.msgprint("UPDATING TEMPLATE")
 		tot_cnt = usr_cnt = 0
 		users = frappe.get_all('door_user')
 		for user_name in users:

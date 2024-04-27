@@ -120,8 +120,8 @@ class controller(Document):
         base = self.get_baseurl()
         url = base + "/card/" + str(user.code)
         payload = json.dumps({
-		"start-date": user.start,
-		"end-date": user.end,
+		"start-date": str(user.start),
+		"end-date": str(user.end),
 		"doors": {'1':int(doors[0]),'2':int(doors[1]),'3':int(doors[2]),'4':int(doors[3])},
 		"PIN": int(user.pin)
 		})

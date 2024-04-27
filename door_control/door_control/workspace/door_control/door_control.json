@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"Z20dArBdA3\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">door_control</span>\",\"col\":12}},{\"id\":\"wbVk2zKTxs\",\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"id\":\"XNTn87JDju\",\"type\":\"card\",\"data\":{\"card_name\":\"Main\",\"col\":3}},{\"id\":\"kSuPut8F6h\",\"type\":\"card\",\"data\":{\"card_name\":\"Inspect\",\"col\":4}}]",
+ "content": "[{\"id\":\"Z20dArBdA3\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">door_control</span>\",\"col\":12}},{\"id\":\"wbVk2zKTxs\",\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}},{\"id\":\"XNTn87JDju\",\"type\":\"card\",\"data\":{\"card_name\":\"Main\",\"col\":3}},{\"id\":\"kSuPut8F6h\",\"type\":\"card\",\"data\":{\"card_name\":\"Inspect\",\"col\":4}},{\"id\":\"qgFTp2oTlm\",\"type\":\"card\",\"data\":{\"card_name\":\"Short Term Rentals\",\"col\":4}}]",
  "creation": "2024-04-10 22:18:37.869760",
  "custom_blocks": [],
  "docstatus": 0,
@@ -109,9 +109,38 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Short Term Rentals",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Units",
+   "link_count": 0,
+   "link_to": "short_term_rentals",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Guests",
+   "link_count": 0,
+   "link_to": "short_term_guest",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2024-04-15 21:53:55.422393",
+ "modified": "2024-04-23 10:45:56.371164",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_control",

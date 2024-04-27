@@ -22,11 +22,14 @@ class door_user(Document):
 	
 	
 	def on_trash(self): 
+		if self.db_delete_only:
+			return
 		controllers = frappe.db.get_all('controller', pluck='name')
 		for ctrl_str in controllers:
 			if any(x for x in self.override if x.controller == ctrl_str):
 				controller = frappe.get_doc('controller', ctrl_str)
 				controller.delete_card(self.code)
+		self.delete_vera()
 
 	@frappe.whitelist()
 	def import_cards(self):
@@ -94,13 +97,27 @@ class door_user(Document):
 		if db_code != str(self.code):
 			frappe.throw("You cannot change the code.  Create a new user instead")
 	
-	def validate(self):
-		if not self.db_save_only:
-			self.save_card_on_controller()
-		self.db_save_only = False
+	def before_validate(self):
+		if self.override == []: # can happen if user is created in code (eg from ST guest module)
+			self.copy_template()
+	
+		if self.active:
+			temp = self.copy_doc()
+			temp.save_card_on_controller()
+			self.save_vera()
+		else:
+			temp = self.copy_doc()
+			for access in temp.override:
+				access.access = False
+			temp.save_card_on_controller()
+			self.deactivate_vera()
 		# continue with other validations
+		return
 
 	def save_card_on_controller(self):
+		if self.db_save_only:
+			self.db_save_only = False
+			return
 		start = datetime.datetime(1970, 1, 1)
 		end = datetime.datetime(2099, 12, 31)
 		s = set()
@@ -156,3 +173,69 @@ class door_user(Document):
 				cardset.append(allcards_str)
 				cardstr += "ctrl: " + ctrl.serial_number + '\n' + allcards_str + '\n'
 		return cardstr
+	
+	def copy_doc(self):
+		new_user = frappe.get_doc({
+			'doctype':		'door_user',
+			'start':		self.start,
+			'end':			self.end,
+			'code':			self.code,
+			'pin':			'0',
+		})
+		for oride in self.override:
+			item = frappe.get_doc({
+				'doctype':		'user_access',
+				'override':		oride.override,
+				'access':		oride.access,
+				'doornum':		oride.doornum,
+				'controller':	oride.controller,
+				})
+			new_user.append('override', item)
+		for vacc in self.vera_access:
+			item = frappe.get_doc({
+				'doctype': 	'vera_access',
+				'room': 	vacc.room,
+				'devnum': 	vacc.devnum,
+			})
+			new_user.append('vera_access', item)
+		return new_user
+	
+	def copy_template(self):
+		template = frappe.get_doc('door_template',self.template)
+		for acc in template.access:
+			ov = frappe.get_doc({
+				'doctype':		'user_access',
+				'access':		acc.access,
+				'doornum':		acc.doornum,
+				'controller':	acc.controller,
+			})
+			self.append('override', ov)
+		return
+
+	def save_vera(self):
+		'''read the old user, comparing self with it, add and delete vaccs appropriately'''
+		if not self.flags.in_insert:
+			old_user = frappe.get_doc('door_user',self.name)
+			for vacc in old_user.vera_access:
+				#if vacc is not in self.ver_access, delete it from vera hub
+				if not any(getattr(obj, 'name', None) == vacc.name for obj in self.vera_access):
+					vacc.delete_user()
+
+		for vacc in self.vera_access:
+			if not vacc.slot:
+				vacc.add_user()
+		return
+	
+	def delete_vera(self): 
+		for vacc in self.vera_access:
+			vacc.delete_user()
+			self.remove(vacc)
+		return
+	
+	def deactivate_vera(self):
+		'''remove from vera hub and remove slot number for vacc but don't remove
+		the child table so that it can be re-added when/if re-activated'''
+		for vacc in self.vera_access:
+			vacc.delete_user()
+			vacc.slot = None
+		return
