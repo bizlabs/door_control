@@ -40,7 +40,8 @@ class short_term_rentals(Document):
 		vaccs = frappe.get_all('vera_access',{'room':self.name})
 		if vaccs == []:
 			return ""
-		pins = vaccs[0].get_pincodes()
+		vacc = frappe.get_doc('vera_access',vaccs[0]['name'])
+		pins = vacc.get_pincodes()
 		return pins
 	
 	# @frappe.whitelist()
