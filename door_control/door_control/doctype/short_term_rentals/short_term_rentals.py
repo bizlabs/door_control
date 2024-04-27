@@ -7,10 +7,6 @@ from frappe.model.document import Document
 
 class short_term_rentals(Document):
 
-	# @property
-	# def vera_access(self):
-	# 	return self.load_vera_access()
-
 	@frappe.whitelist()
 	def load_vera_access(self):
 		vaccs = frappe.get_all('vera_access',
@@ -30,6 +26,8 @@ class short_term_rentals(Document):
 
 	@property
 	def door_num(self):
+		if not self.uhppote_controller:
+			return 0
 		ctrl = frappe.get_doc('controller',self.uhppote_controller)
 		for i in range(1,5):
 			if self.door_name == getattr(ctrl,'doorname_'+str(i)):
@@ -38,11 +36,11 @@ class short_term_rentals(Document):
 		
 	@frappe.whitelist()
 	def get_pincodes(self):
-		try:
-			vacc = frappe.get_doc('vera_access',{'room':self.name})
-		except:
-			return None
-		pins = vacc.get_pincodes()
+		'''get pincodes from the first access line that matches this room/lock'''
+		vaccs = frappe.get_all('vera_access',{'room':self.name})
+		if vaccs == []:
+			return ""
+		pins = vaccs[0].get_pincodes()
 		return pins
 	
 	# @frappe.whitelist()
