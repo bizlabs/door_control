@@ -42,7 +42,7 @@
   },
   {
    "fieldname": "code",
-   "fieldtype": "Int",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "code"
   },
@@ -83,7 +83,7 @@
  "index_web_pages_for_search": 1,
  "is_virtual": 1,
  "links": [],
- "modified": "2024-04-12 23:57:46.464211",
+ "modified": "2024-04-29 23:19:57.540521",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "v_event",

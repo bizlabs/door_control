@@ -73,7 +73,7 @@ class events(Document):
 			'dev_id':			event['device-id'],
 			'access_granted':	event['access-granted'],
 			'door':				str(event['door-id']),
-			'code':				event['card-number'],
+			'code':				str(event['card-number']),
 			'timestamp':		datetime.strptime(event_date, "%Y-%m-%d %H:%M:%S %Z"),
 			'reason':			event['event-reason-text'],
 			'event_type':		event['event-type-text'],
