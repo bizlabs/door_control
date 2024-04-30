@@ -30,7 +30,7 @@
   },
   {
    "fieldname": "code",
-   "fieldtype": "Int",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "code"
   },
@@ -76,7 +76,7 @@
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-29 15:37:40.694963",
+ "modified": "2024-04-29 22:43:39.362713",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "events",

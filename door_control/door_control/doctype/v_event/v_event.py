@@ -37,8 +37,8 @@ class v_event(Document):
 			'dev_id':			event['device-id'],
 			'access_granted':	event['access-granted'],
 			'door':				str(event['door-id']),
-			'code':				event['card-number'],
-			'timestamp':		event_date,
+			'code':				str(event['card-number']),
+			'timestamp':		datetime.strptime(event_date, "%Y-%m-%d %H:%M:%S %Z"),
 			'reason':			event['event-reason-text'],
 			'event_type':		event['event-type-text'],
 			'direction':		event['direction-text'],
@@ -72,13 +72,6 @@ class v_event(Document):
 
 	@staticmethod
 	def get_list(args):
-		pass
-		# xxx loop thru args.filters
-		# eg args.filters[0][1] = field [2] = compare operator, [3] = condition to compare
-		# eg ['v_event','timestamp', '>', some_date]
-		# or ['v_event','timestamp', 'Between', [date1,date2]]
-		# ignore other filters for now
-
 		num_events = int(args['page_length'])
 		eventset = []
 		ctrls = frappe.get_all('controller')
@@ -86,7 +79,13 @@ class v_event(Document):
 		for ID in ctrls: 
 			ctrl = frappe.get_doc('controller',ID.name)
 			events = ctrl.get_events()
-			for i in range(events['last'], events['last']  - num_events, -1):
+			if not events:
+				continue
+			#find index range given date range (events, dates)
+			#estimate from date range of first to last and assume slope
+			start_ndx, end_ndx = get_range(ctrl, events, args)
+			start_ndx = max(start_ndx,end_ndx-num_events)
+			for i in range(end_ndx, start_ndx, -1):
 				event = ctrl.get_event(i)
 				if not event:
 					miss += 1
@@ -95,8 +94,9 @@ class v_event(Document):
 					'name': 		str(event['device-id']) + ":" + str(event['event-id']),
 					'event_ndx':	event['event-id'], 
 					'dev_id':		event['device-id'], 
-					'timestamp':	event['timestamp'],
-					'code':			event['card-number'],
+					'timestamp':	datetime.strptime(event['timestamp'], "%Y-%m-%d %H:%M:%S %Z"),
+					# 'timestamp':	event['timestamp'],
+					'code':			str(event['card-number']),
 					'event_type':	event['event-type-text'],
 					'access_granted':	event['access-granted'],
 					'door':			str(event['door-id']),
@@ -112,3 +112,44 @@ class v_event(Document):
 	@staticmethod
 	def get_stats(args):
 		pass
+
+	
+def get_range(ctrl,events,args):
+	'''return the index of the end of the range based on end_date'''
+	
+	for filter in args.filters:
+		if filter[1] == 'timestamp' and filter[2] == 'Between':
+			start_date_str = filter[3][0]
+			end_date_str = filter[3][1]
+		else:
+			return 1, events['last'] #no filter
+	
+	date1 = get_date(ctrl,events['first'])
+	date2 = get_date(ctrl,events['last'])
+	totdays = (date2-date1).days
+	numevents = events['last']-events['first']
+	slope = float(numevents / totdays)
+	end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
+	end_ndx = interpolate(ctrl, end_date, date1, slope)
+	start_date = datetime.strptime(start_date_str,'%Y-%m-%d')
+	start_ndx = interpolate(ctrl, start_date, date1, slope)
+	return start_ndx, end_ndx
+
+def interpolate(ctrl, test_date, date1, slope):
+	xdays = (test_date - date1).days
+	eventnum = int(round(xdays * slope))
+
+	xdate = get_date(ctrl,eventnum)
+	while xdate < test_date:
+		eventnum += 1
+		xdate = get_date(ctrl,eventnum)
+	while xdate > test_date:
+		eventnum -= 1
+		xdate = get_date(ctrl,eventnum)
+
+	return eventnum
+
+def get_date(ctrl,ndx):
+	datestr = ctrl.get_event(ndx)['timestamp']
+	date = datetime.strptime(datestr,"%Y-%m-%d %H:%M:%S %Z")
+	return date
