@@ -15,7 +15,7 @@ def get_subbase_url():
 
 def get_all_controllers():
 	url = get_subbase_url()
-	r = requests.get(url)	
+	r = rentget(url)	
 	cnt_new = 0
 	if r.status_code == 200:
 		ctrls = r.json()['devices']
@@ -35,9 +35,8 @@ def get_new_ctrls(all, exist):
 		if nf == 0: # none found, so must be new controller
 			# another rest call to get the controller info...
 			url = get_subbase_url() + "/" + str(dev['device-id'])
-			r = requests.get(url)
+			r = rentget(url)
 			a = r.json()['device']
-			pass  # xxx now we need to organize the info for the a.xxx stuff below
 			new_ctrl = frappe.new_doc('controller')
 			new_ctrl.serial_number = str(dev['device-id'])
 			new_ctrl.ip_address = a['ip-address']
@@ -61,7 +60,7 @@ class controller(Document):
     def get_events(self):
         url = self.get_baseurl()
         url += "/events"
-        r=requests.get(url)
+        r=rentget(url)
         tries = 0
         while tries < 5:
             try:
@@ -74,7 +73,7 @@ class controller(Document):
     def get_event(self,ndx):
         url = self.get_baseurl()
         url += "/event/" + str(ndx)
-        r = requests.get(url)
+        r = rentget(url)
         tries = 0
         while tries < 5:
             try:
@@ -125,11 +124,11 @@ class controller(Document):
 		"doors": {'1':int(doors[0]),'2':int(doors[1]),'3':int(doors[2]),'4':int(doors[3])},
 		"PIN": int(user.pin)
 		})
-        headers = {
-		'Content-Type': 'application/json',
-		'Authorization': 'Basic <credentials>'
-		}
-        r = requests.request("PUT", url, headers=headers, data=payload)
+        # headers = {
+		# 'Content-Type': 'application/json',
+		# 'Authorization': 'Basic <credentials>'
+		# }
+        r = rentreq("PUT", url, data=payload)
         if r.status_code != 200:
             frappe.throw(str(r.status_code) + "PutCommErr: url: " + url)
         return True
@@ -138,9 +137,7 @@ class controller(Document):
     def delete_card(self, cardnum):
         base = self.get_baseurl()
         url = base + "/card/" + str(cardnum)
-        payload = {}
-        headers = {'Accept': 'application/json'}
-        r=requests.request("DELETE",url, headers=headers, data=payload)
+        r=rentdel(url)
         if r.status_code != 200:
             frappe.throw(str(r.status_code) + "DelCommErr: url: " + url)
         return True
@@ -148,7 +145,7 @@ class controller(Document):
     def get_cards(self):
         base = self.get_baseurl()
         url = base + "/cards"
-        r=requests.get(url)
+        r=rentget(url)
         cards = r.json()['cards']
         return cards
     
@@ -160,10 +157,38 @@ class controller(Document):
     def get_card(self,card):
         base = self.get_baseurl()
         url = base + "/card/" + str(card)
-        r=requests.get(url)
+        r=rentget(url)
         fullcard = r.json()['card']
         if 'PIN' not in fullcard:
             fullcard['PIN'] = 0
         return fullcard
-	
+    
+# non-class functions relentless requests
 
+def rentget(url):
+    '''relentless GET'''
+    r = rentreq('GET', url, "")
+    return r
+
+def rentdel(url):
+    r = rentreq('DELETE', url, "")
+    return r
+
+def rentreq(type, url, data):
+    '''relentless requests - tries several times with pause between'''
+    num_tries = 7
+    pause = 1
+    for i in range(1,num_tries+1):
+        if type == 'GET':
+            r = requests.get(url)
+        elif type == 'PUT':
+            r = requests.put(url, data)
+        elif type == 'DELETE':
+            r = requests.delete(url)
+        if r.status_code == 200:
+            return r
+        time.sleep(pause)
+    return r
+
+            
+            
