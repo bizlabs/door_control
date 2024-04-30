@@ -12,7 +12,8 @@
   "reason",
   "direction",
   "event_type",
-  "user"
+  "user",
+  "timestamp"
  ],
  "fields": [
   {
@@ -65,12 +66,17 @@
    "fieldtype": "Data",
    "is_virtual": 1,
    "label": "User Name"
+  },
+  {
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "label": "timestamp"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-14 00:17:26.197800",
+ "modified": "2024-04-29 15:37:40.694963",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "events",

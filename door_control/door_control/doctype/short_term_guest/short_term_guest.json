@@ -1,6 +1,5 @@
 {
  "actions": [],
- "allow_rename": 1,
  "creation": "2024-04-22 19:39:14.532106",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -58,7 +57,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-26 17:33:27.842921",
+ "modified": "2024-04-28 07:50:14.652862",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "short_term_guest",
