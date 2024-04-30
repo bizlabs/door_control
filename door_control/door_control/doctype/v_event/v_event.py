@@ -117,12 +117,15 @@ class v_event(Document):
 def get_range(ctrl,events,args):
 	'''return the index of the end of the range based on end_date'''
 	
-	for filter in args.filters:
-		if filter[1] == 'timestamp' and filter[2] == 'Between':
+	if args.filters:
+		filter = args.filters[0] #xxx filter[0] gives error if there are no filters!
+		if filter[1] == 'timestamp' and filter[2] == 'Between' and filter[3]:
 			start_date_str = filter[3][0]
 			end_date_str = filter[3][1]
 		else:
 			return 1, events['last'] #no filter
+	else:
+		return 1, events['last'] #no filter
 	
 	date1 = get_date(ctrl,events['first'])
 	date2 = get_date(ctrl,events['last'])
@@ -130,8 +133,12 @@ def get_range(ctrl,events,args):
 	numevents = events['last']-events['first']
 	slope = float(numevents / totdays)
 	end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
+	end_date = date_in_range(end_date, date1, date2)
+	# end_date = end_date if end_date < date2 else date2
 	end_ndx = interpolate(ctrl, end_date, date1, slope)
 	start_date = datetime.strptime(start_date_str,'%Y-%m-%d')
+	start_date = date_in_range(start_date, date1, date2)
+	# start_date = start_date if start_date > date1 else date1
 	start_ndx = interpolate(ctrl, start_date, date1, slope)
 	return start_ndx, end_ndx
 
@@ -150,6 +157,17 @@ def interpolate(ctrl, test_date, date1, slope):
 	return eventnum
 
 def get_date(ctrl,ndx):
-	datestr = ctrl.get_event(ndx)['timestamp']
+	event = ctrl.get_event(ndx)
+	if not event:
+		frappe.throw("error retreiving ndx = " + str(ndx))
+	datestr = event['timestamp']
 	date = datetime.strptime(datestr,"%Y-%m-%d %H:%M:%S %Z")
 	return date
+
+def date_in_range(x, d1, d2):
+	if x < d1:
+		return d1
+	elif x > d2:
+		return d2
+	else:
+		return x
