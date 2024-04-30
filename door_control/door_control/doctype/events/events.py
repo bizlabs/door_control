@@ -3,6 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
+from datetime import datetime
 
 @frappe.whitelist()
 def get_events(max):
@@ -73,7 +74,7 @@ class events(Document):
 			'access_granted':	event['access-granted'],
 			'door':				str(event['door-id']),
 			'code':				event['card-number'],
-			'timestamp':		event_date,
+			'timestamp':		datetime.strptime(event_date, "%Y-%m-%d %H:%M:%S %Z"),
 			'reason':			event['event-reason-text'],
 			'event_type':		event['event-type-text'],
 			'direction':		event['direction-text'],
