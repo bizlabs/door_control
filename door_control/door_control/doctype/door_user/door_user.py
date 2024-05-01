@@ -228,7 +228,8 @@ class door_user(Document):
 	
 	def delete_vera(self): 
 		for vacc in self.vera_access:
-			vacc.delete_user()
+			if self.active:
+				vacc.delete_user()
 			self.remove(vacc)
 		return
 	
