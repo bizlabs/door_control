@@ -28,7 +28,7 @@ frappe.listview_settings['v_event'] = {
                     default:    max
                 },
             ], (values) => {
-                console.log(values.start, values.end, values.max);
+                // console.log(values.start, values.end, values.max);
                 listview.page_length = values.max;
                 debugger 
                 frappe.route_options = {

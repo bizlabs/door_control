@@ -14,6 +14,8 @@ class door_template(Document):
 		users = frappe.get_all('door_user')
 		for user_name in users:
 			user = frappe.get_doc('door_user',user_name)
+			if user.template != self.name: # xxx if user is not this template
+				continue # to next user
 			run_cnt = 0
 			for ap in user.override:
 				#if not overridden, change to template 
