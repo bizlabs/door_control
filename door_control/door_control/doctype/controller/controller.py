@@ -124,10 +124,6 @@ class controller(Document):
 		"doors": {'1':int(doors[0]),'2':int(doors[1]),'3':int(doors[2]),'4':int(doors[3])},
 		"PIN": int(user.pin)
 		})
-        # headers = {
-		# 'Content-Type': 'application/json',
-		# 'Authorization': 'Basic <credentials>'
-		# }
         r = rentreq("PUT", url, data=payload)
         if r.status_code != 200:
             frappe.throw(str(r.status_code) + "PutCommErr: url: " + url)
@@ -146,6 +142,8 @@ class controller(Document):
         base = self.get_baseurl()
         url = base + "/cards"
         r=rentget(url)
+        if r.status_code != 200:
+             frappe.throw("no cards found on any controllers")
         cards = r.json()['cards']
         return cards
     
@@ -190,5 +188,4 @@ def rentreq(type, url, data):
         time.sleep(pause)
     return r
 
-            
-            
+        

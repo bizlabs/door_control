@@ -67,10 +67,6 @@ class door_user(Document):
 					new_user.add_controller(fullcard, controller)
 					new_user.insert()
 		frappe.msgprint("done importing")
-					
-					
-			#xxx now look for matching card/controller set in db
-			# and create a new one with foreign = true if not found
    
 	def has_controller(self,controller):
 		for access in self.override:
@@ -90,7 +86,7 @@ class door_user(Document):
 			self.append('override', access)
 
 	def before_save(self):
-		pass
+		'''don't allow changing users code'''
 		db_code = frappe.db.get_value('door_user',self.name,'code')
 		if db_code == None:
 			return # this is a new user so don't check if code is changed
@@ -102,8 +98,9 @@ class door_user(Document):
 			self.copy_template()
 	
 		if self.active:
-			temp = self.copy_doc()
-			temp.save_card_on_controller()
+			# temp = self.copy_doc()
+			# temp.save_card_on_controller()
+			self.save_card_on_controller()
 			self.save_vera()
 		else:
 			temp = self.copy_doc()
@@ -117,6 +114,9 @@ class door_user(Document):
 	def save_card_on_controller(self):
 		if self.db_save_only:
 			self.db_save_only = False
+			return
+		if self.full_name == None:
+			#ignore imports until name entered
 			return
 		start = datetime.datetime(1970, 1, 1)
 		end = datetime.datetime(2099, 12, 31)
