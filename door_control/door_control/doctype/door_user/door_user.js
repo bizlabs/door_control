@@ -47,25 +47,33 @@ frappe.ui.form.on("door_user", {
             })
         }).css({"color":"black", "background-color": "pink", "font-weight": "800"});
 
-        frm.add_custom_button(__("upload this user"), function() {
-            frappe.confirm('Are you sure to upload this user to all applicable controllers?',
-            () => {
-                frm.call('upload_one', { arg1: "value" })
-                .then(r => {
-                    debugger
-                    console.log (r.message)
-                    if (r.message != false) {
-                        frappe.msgprint("user '" + r.message + "' uploaded successfully");
-                    }
-                    else {
-                        frappe.msgprint("error: " + r.message);
-                    }
+        if (cur_frm.doc.active) {
+            frm.add_custom_button(__("upload this user"), function() {
+                debugger
+                if (cur_frm.is_dirty()) {
+                    frappe.msgprint("Please save form before uploading");
+                }
+                else {
+                    frappe.confirm('Are you sure to upload this user to all applicable controllers?',
+                    () => {
+                        frm.call('upload_one', { arg1: "value" })
+                        .then(r => {
+                            debugger
+                            console.log (r.message)
+                            if (r.message != false) {
+                                frappe.msgprint("user '" + r.message + "' uploaded successfully");
+                            }
+                            else {
+                                frappe.msgprint("error: " + r.message);
+                            }
 
-                });
-            }, () => {
-                console.log("user cancelled upload")
-            })
-        }).css({"color":"white", "background-color": "firebrick", "font-weight": "800"});
+                        });
+                    }, () => {
+                        console.log("user cancelled upload")
+                    })
+                }
+            }).css({"color":"white", "background-color": "firebrick", "font-weight": "800"});
+        }
 	},
 
     'group': function(frm) {
