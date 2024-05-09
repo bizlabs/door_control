@@ -54,7 +54,7 @@ frappe.listview_settings['v_event'] = {
 
 
 
-        });;
+        }).css({"color":"black", "background-color": "pink", "font-weight": "800"});
     },
 };
 
