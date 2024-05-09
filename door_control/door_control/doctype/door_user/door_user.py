@@ -8,7 +8,7 @@ import datetime, json, requests
 
 @frappe.whitelist()
 def upload_all():
-	users = frappe.get_all('door_user',filters={'full_name': ['!=', ""]})
+	users = frappe.get_all('door_user',filters={'full_name': ['!=', ""],'active':True})
 
 	user_cnt = 0
 	for username in users:
