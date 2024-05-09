@@ -59,6 +59,8 @@ class vera_access(Document):
 
 
 	def delete_user(self):
+		if not self.slot:
+			return
 		url = self.get_baseurl('action')
 		url += "&action=ClearPin&UserCode=" + self.slot
 		r = requests.get(url)
