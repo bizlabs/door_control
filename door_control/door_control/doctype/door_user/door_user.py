@@ -193,6 +193,7 @@ class door_user(Document):
 	def copy_doc(self):
 		new_user = frappe.get_doc({
 			'doctype':		'door_user',
+			'full_name':	'self.full_name',
 			'start':		self.start,
 			'end':			self.end,
 			'code':			self.code,
