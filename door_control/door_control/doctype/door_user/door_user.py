@@ -6,7 +6,23 @@ from frappe.model.document import Document
 import datetime, json, requests
 
 
+@frappe.whitelist()
+def upload_all():
+	users = frappe.get_all('door_user',filters={'full_name': ['!=', ""]})
+
+	user_cnt = 0
+	for username in users:
+		user = frappe.get_doc('door_user',username)
+		user.save_card_on_controller()
+		user_cnt += 1
+	return user_cnt
+
 class door_user(Document):
+
+	@frappe.whitelist()
+	def upload_one(self):
+		self.save_card_on_controller()
+		return self.full_name
 
 	@frappe.whitelist()
 	def get_access_by_template(self):
@@ -118,8 +134,8 @@ class door_user(Document):
 		if self.full_name == None:
 			#ignore imports until name entered
 			return
-		start = datetime.datetime(1970, 1, 1)
-		end = datetime.datetime(2099, 12, 31)
+		# start = datetime.datetime(1970, 1, 1)
+		# end = datetime.datetime(2099, 12, 31)
 		s = set()
 		access = {}
 		for a in self.override:
