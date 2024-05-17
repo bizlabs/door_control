@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 import datetime, requests, json, time
 from frappe.utils import today
-
+          
 def get_subbase_url():
     settings = frappe.get_doc('doorctl_settings')
     ip_addr = settings.rest_ip
@@ -52,7 +52,7 @@ def get_new_ctrls(all, exist):
 	return cnt
     
 class controller(Document):
-     
+
     @property
     def v_sn(self):
        return self.serial_number

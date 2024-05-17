@@ -58,7 +58,6 @@ frappe.ui.form.on("door_user", {
                     () => {
                         frm.call('upload_one', { arg1: "value" })
                         .then(r => {
-                            debugger
                             console.log (r.message)
                             if (r.message != false) {
                                 frappe.msgprint("user '" + r.message + "' uploaded successfully");

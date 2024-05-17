@@ -5,6 +5,48 @@ import frappe
 from frappe.model.document import Document
 import datetime, json, requests
 
+# @frappe.whitelist()
+# def add_card_from_scan(full_name, cardnum):
+# 	# frappe.msgprint("name = " + full_name + ", card = "+cardnum)
+# 	user = frappe.new_doc({
+# 		'doctype':'door_user',
+# 		'full_name': full_name,
+# 		'code': cardnum,
+# 		'pin':
+# 		'start':
+# 		'end':
+# 		'group':
+# 		'template':
+# 	})
+
+@frappe.whitelist()
+def read_card():
+	'''loop through check last event on a specific controller until it changes or time expires'''
+	
+	max_time = 10
+	cnames = frappe.get_all('controller', pluck='name')
+	ctrls = {}; e1={}; e2={}; i=0
+	for cname in cnames:
+		# cname='423195283'
+		ctrl = frappe.get_doc('controller',cname)
+		ctrls[cname] = ctrl
+		e1[cname] = ctrl.get_event('last')
+		# i += 1
+	t0 = datetime.datetime.now()
+	scan_detected = False
+	while scan_detected == False:
+	# while e1['timestamp'] == e2['timestamp']:
+		# for ctrl in ctrls:
+		for cname, ctrl in ctrls.items():
+			e2 = ctrl.get_event('last')
+			if e1[cname]['timestamp'] != e2['timestamp']:
+				scan_detected = True
+				break
+		timer = datetime.datetime.now() - t0
+		if timer.seconds > max_time:
+			return None
+	return e2
+
 
 @frappe.whitelist()
 def upload_all():

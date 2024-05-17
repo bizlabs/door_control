@@ -41,7 +41,7 @@ class short_term_guest(Document):
 			user.save()
 				# possible future feature to allow changing code which require del/add on vera and uhppote controllers
 
-	def set_user(self,user):  # change to set already created user xxx
+	def set_user(self,user):  
 		settings = frappe.get_doc('doorctl_settings')
 		user.full_name = 	self.guest_name
 		user.group = 		settings.guest_group
