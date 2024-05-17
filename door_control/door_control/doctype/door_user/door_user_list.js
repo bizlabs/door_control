@@ -26,5 +26,65 @@ frappe.listview_settings['door_user'] = {
                 }
             })
         }).css({"color":"white", "background-color": "firebrick", "font-weight": "800"});
+
+
+        listview.page.add_inner_button("read card", function() {
+            frappe.msgprint("scan card now...")
+            frappe.call('door_control.door_control.doctype.door_user.door_user.read_card', 
+            { 'arg': ""  })
+            .then(r => {
+                console.log(r.message)
+                debugger
+                if (!r.message) {
+                    frappe.msgprint ("no card scanned");
+                }
+                else {
+                    debugger
+                    event = r.message;
+                    frappe.call({
+                        method: "frappe.client.get",
+                        args: {
+                            doctype: "controller",
+                            name: r.message['device-id']
+                        },
+                        callback: function(r) {
+                            debugger
+                            var ctrl = r.message;
+                            dname = ctrl["doorname_"+event['door-id']];
+                            devname = ctrl.location;
+                            msg = "card: "+event['card-number'] + ", ";
+                            msg += "at door "+dname + ", ";
+                            msg += "on controller: "+devname;
+                            frappe.msgprint(msg);
+                            frappe.msgprint("is this the right scan?")
+                            frappe.confirm('Is this the right scan?',
+                            () => {
+                                var user = frappe.model.get_new_doc("door_user");
+                                user.code = event['card-number'];
+                                frappe.set_route("Form", 'door_user', user.name);
+                            }, () => {
+                                frappe.msgprint("Press the 'read card' button to try again")
+                            })
+                        }
+                    });
+                    
+                    
+
+                }
+            });
+        }).css({"color":"white", "background-color": "blue", "font-weight": "800"});
+
+
+        listview.page.add_inner_button("TEST read card", function() {
+            event = {'card-number':"5551212"} 
+            debugger
+
+            var user = frappe.model.get_new_doc("door_user");
+            user.code = "555";
+        
+            // Open the form for the new document
+            frappe.set_route("Form", 'door_user', user.name);
+        }).css({"color":"white", "background-color": "red", "font-weight": "800"});
+
     },
 };
