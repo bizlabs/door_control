@@ -35,10 +35,15 @@ frappe.ui.form.on("controller", {
                     fieldname: 'doors',
                     fieldtype: 'Data'
                 },
+                {
+                    label: 'pin',
+                    fieldname: 'pin',
+                    fieldtype: 'Data'
+                },
             ], (values) => {
                 console.log(values.cardnum, values.doors);
 
-                frm.call('add_card_for_testing', { 'cardnum': values.cardnum, 'dstr': values.doors, 'pin': '0'  })
+                frm.call('add_card_for_testing', { 'cardnum': values.cardnum, 'dstr': values.doors, 'pin': values.pin  })
                 .then(r => {
                     debugger
                 })
