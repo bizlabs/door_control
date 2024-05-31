@@ -102,19 +102,16 @@ class door_user(Document):
 				fullcard = controller.get_card(card)
 				for db_card in db_cards:
 					if card == int(db_card.code):
-						found = True; changed = False
+						found = True
+						user = frappe.get_doc('door_user', db_card.name)
 						#override pin from controller
 						if int(db_card.pin) != fullcard['PIN']:
-							user = frappe.get_doc('door_user', db_card.name)
 							user.pin = str(fullcard['PIN'])
 							user.db_save_only = True
 							user.save()
-							changed = True
 						# check for controller and add a child record if needed
 						if not user.has_controller(controller):	
 							#didn't find this controller so we'll add it 
-							if not changed:
-								user = frappe.get_doc('door_user', db_card.name)
 							user.add_controller(fullcard, controller)
 							user.db_save_only = True
 							user.save()
