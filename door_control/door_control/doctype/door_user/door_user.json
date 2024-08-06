@@ -108,10 +108,10 @@
   },
   {
    "default": "0",
+   "description": "Do not touch this unless your name is Doug",
    "fieldname": "db_save_only",
    "fieldtype": "Check",
-   "label": "db_save_only",
-   "read_only": 1
+   "label": "db_save_only"
   },
   {
    "default": "Today",
@@ -152,7 +152,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-07 15:25:45.536732",
+ "modified": "2024-05-30 10:01:02.434806",
  "modified_by": "Administrator",
  "module": "Door Control",
  "name": "door_user",
