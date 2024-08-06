@@ -15,6 +15,7 @@ class short_term_guest(Document):
 		# frappe.msgprint("whoa!  need to uncomment code to delete associated user")
 	
 	def before_validate(self):
+		self.check_guest_overlap()
 		user = self.get_user()
 		if self.flags.in_insert:
 			if user:
@@ -24,17 +25,17 @@ class short_term_guest(Document):
 				# settings = frappe.get_doc('doorctl_settings')
 				new_user = frappe.new_doc('door_user')
 				new_user = self.set_user(new_user)
-				guests = frappe.get_all('short_term_guest',filters={'active':'1', 'room': self.room})
-				for guest_name in guests:
-					guest = frappe.get_doc('short_term_guest', guest_name)
-					guest.check_overlapping_guests(self)
-				new_user.append('vera_access',{'room':self.room})
+				### xxx only execute following if self.room has vera lock
+				room = frappe.get_doc('short_term_rentals', self.room)
+				if room.lock_type == "Vera":
+					new_user.append('vera_access',{'room':self.room})
 				
 				new_user.insert()
 				self.door_user = new_user.name
 			return
 
 		else: # update, not insert
+
 			user = frappe.get_doc('door_user',self.door_user)
 			user = self.set_user(user)
 			user.active = self.active
@@ -50,13 +51,29 @@ class short_term_guest(Document):
 		user.template = 	settings.guest_template
 		return user
 
+	def check_guest_overlap(self):
+		guests = frappe.get_all('short_term_guest',filters={'active':'1', 'room': self.room})
+		for guest_name in guests:
+			guest = frappe.get_doc('short_term_guest', guest_name)
+			overlap = True ### write code to check if times overlap
+			if overlap:
+				if self.active:
+					frappe.throw("You must deactivate or delete existing guest first")
+		else:
+			# no active guest in room so don't check overlap, just return
+			return
+
+			### guest.check_overlapping_guests(self)
+
+	### obsolete below
 	def check_overlapping_guests(self,new_guest):
 		'''if existing guest overlaps dates with new guest, do something about it
 		perhaps ask user if they would like to deactivate or delete the old guest?
 		however prompting from server requires realtime socketio which is not working rn'''
 		overlap = True
 		if overlap:
-			frappe.throw("You must deactivate or delete existing guest first")
+			if new_guest.active:
+				frappe.throw("You must deactivate or delete existing guest first")
 
 	def get_user(self):
 		users = frappe.get_all('door_user', filters = {'code':self.code}, fields=['full_name','group'])
